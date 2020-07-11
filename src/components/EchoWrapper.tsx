@@ -1,6 +1,6 @@
 import React from 'react'
 
-import EchoSocket from '../modules/websocket'
+import AttentedWebSocket from '../modules/websocket'
 import { EchoForm } from './EchoForm'
 
 
@@ -9,7 +9,7 @@ const EchoWrapper: React.FC = () => {
   let websocket: WebSocket
 
   const connect = (): string => {
-    websocket = new EchoSocket(wsUri)
+    websocket = new AttentedWebSocket(wsUri, (evt) => { console.log(evt) })
     return "CONNECTED"
   }
 
