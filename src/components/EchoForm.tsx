@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { messageEventCallback } from './types'
+import { MessageEventCallback } from './types'
 import '../styles/App.css'
 
 export interface Props {
-  connect: (eventCallback: messageEventCallback) => void
-  send: (eventCallback: messageEventCallback) => void
+  connect: (eventCallback: MessageEventCallback) => void
+  send: (eventCallback: MessageEventCallback) => void
   disconnect: () => void
 }
 

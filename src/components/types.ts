@@ -1,1 +1,1 @@
-export type messageEventCallback = (message: string) => void
+export type MessageEventCallback = (message: string) => void
