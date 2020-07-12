@@ -1,6 +1,8 @@
-import { EventName, wsEventCallback } from './types'
+import {
+  EventName, EventInstance, wsEventCallback, MessageEventCallback
+} from './types'
 
-class AttentedWebSocket extends WebSocket {
+export default class AttentedWebSocket extends WebSocket {
   events: EventName[] = ["close", "error", "message", "open"]
 
   constructor(url: string, eventCallback?: wsEventCallback, protocols?: string | string[]) {
@@ -18,4 +20,27 @@ class AttentedWebSocket extends WebSocket {
   }
 }
 
-export default AttentedWebSocket
+export const messageEventWrapper = (
+  evt: EventInstance, eventCallback: MessageEventCallback
+): void => {
+  let message: string
+  switch (evt.type) {
+    case "open":
+      message = "CONNECTED"
+      break
+    case "close":
+      message = "DISCONNECTED"
+      break
+    case "message":
+      const messageEvent = evt as MessageEvent
+      message = "RECEIVED: " + messageEvent.data
+      break
+    case "error":
+      const errorEvent = evt as MessageEvent
+      message = "ERROR: " + errorEvent.data
+      break
+    default:
+      message = evt.type.toUpperCase()
+  }
+  eventCallback(message)
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { MessageEventCallback } from './types'
+import { MessageEventCallback } from '../modules/types'
 import '../styles/App.css'
 
 export interface Props {
