@@ -1,15 +1,20 @@
 import React from 'react'
 
+import { messageEventCallback } from './types'
 import '../styles/App.css'
 
 export interface Props {
-  connect: () => void
+  connect: (eventCallback: messageEventCallback) => void
+  send: (eventCallback: messageEventCallback) => void
   disconnect: () => void
-  send: () => void
 }
 
 export const EchoForm: React.FC<Props> = props => {
-  let [messages, setMessages] = React.useState([])
+  const [messages, setMessages] = React.useState([])
+
+  const appendMessageToLog = (message: string): void => {
+    setMessages(messages => messages.concat([message] as never[]))
+  }
 
   const logElems: JSX.Element[] = []
   messages.forEach((value, i) => {
@@ -23,23 +28,14 @@ export const EchoForm: React.FC<Props> = props => {
       <div>websocket echo</div>
       <button onClick={
         () => {
-          const message = props.connect()
-          setMessages(messages.concat([message] as never[]))
+          props.connect(appendMessageToLog)
         }
       }>Connect</button>
-      <button onClick={
-        () => {
-          const message = props.disconnect()
-          setMessages(messages.concat([message] as never[]))
-        }
-      }>Disconnect</button>
       <input type="text" id="message" />
       <button onClick={
-        () => {
-          const message = props.send()
-          setMessages(messages.concat([message] as never[]))
-        }
+        () => { props.send(appendMessageToLog) }
       }>Send</button>
+      <button onClick={props.disconnect}>Disconnect</button>
       <ul className="Web-socket-echo-log" id="log">{logElems}</ul>
     </div>
   )

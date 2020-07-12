@@ -2,12 +2,11 @@ import React from 'react'
 
 import AttentedWebSocket from '../modules/websocket'
 import { EventInstance } from '../modules/types'
+import { messageEventCallback } from './types'
 import { EchoForm } from './EchoForm'
 
-type DataEventCallback = (message: string) => void
-
-const eventDataWrapper = (
-  evt: EventInstance, eventCallback: DataEventCallback
+const messageEventWrapper = (
+  evt: EventInstance, eventCallback: messageEventCallback
 ): void => {
   let message: string
   switch (evt.type) {
@@ -35,22 +34,23 @@ const EchoWrapper: React.FC = () => {
   const wsUri = "wss://echo.websocket.org/"
   let websocket: WebSocket
 
-  const connect = () => {
+  const connect = (eventCallback: messageEventCallback): void => {
     websocket = new AttentedWebSocket(
       wsUri,
       (evt) => {
-        eventDataWrapper(evt, console.log)
+        messageEventWrapper(evt, eventCallback)
       },
     )
   }
 
-  const disconnect = () => {
+  const disconnect = (): void => {
     websocket.close()
   }
 
-  const send = () => {
-    const message = "Hello Websocket!"
+  const send = (eventCallback: messageEventCallback): void => {
+    const message = "SENT: Hello Websocket!"
     websocket.send(message)
+    eventCallback(message)
   }
 
   return (
