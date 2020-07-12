@@ -5,7 +5,6 @@ class AttentedWebSocket extends WebSocket {
 
   constructor(url: string, eventCallback?: wsEventCallback, protocols?: string | string[]) {
     super(url, protocols)
-    console.log("CONNECTED")
     if (eventCallback !== undefined) {
       this.events.forEach(
         (eventName) => { this.addEventListener(eventName, eventCallback) }
