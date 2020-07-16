@@ -1,16 +1,21 @@
 import React from 'react'
 
-import { MessageEventCallback } from '../modules/types'
+import { wsConnectHandler, wsSendHandler, wsDisconnectHandler } from './types'
 import '../styles/App.css'
 
 export interface Props {
-  connect: (eventCallback: MessageEventCallback) => void
-  send: (eventCallback: MessageEventCallback) => void
-  disconnect: () => void
+  connect: wsConnectHandler
+  send: wsSendHandler
+  disconnect: wsDisconnectHandler
 }
 
 export const EchoForm: React.FC<Props> = props => {
+  const [messageFromInput, setMessage] = React.useState("")
   const [messages, setMessages] = React.useState([])
+
+  const handleMessageUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMessage(event.target.value)
+  }
 
   const appendMessageToLog = (message: string): void => {
     setMessages(messages => messages.concat([message] as never[]))
@@ -31,9 +36,9 @@ export const EchoForm: React.FC<Props> = props => {
           props.connect(appendMessageToLog)
         }
       }>Connect</button>
-      <input type="text" id="message" />
+      <input type="text" value={messageFromInput} onChange={handleMessageUpdate} />
       <button onClick={
-        () => { props.send(appendMessageToLog) }
+        () => { props.send(messageFromInput, appendMessageToLog) }
       }>Send</button>
       <button onClick={props.disconnect}>Disconnect</button>
       <ul className="Web-socket-echo-log" id="log">{logElems}</ul>
