@@ -1,6 +1,6 @@
 import React from 'react'
 
-import AttentedWebSocket, { messageEventWrapper } from '../modules/websocket'
+import AttentedWebSocket, { messageEventWrapper } from '../modules/WebSocket'
 import { wsConnectHandler, wsSendHandler, wsDisconnectHandler } from './types'
 import { EchoForm } from './EchoForm'
 
