@@ -1,8 +1,9 @@
 import React from 'react'
 
 import AttentedWebSocket, { messageEventWrapper } from '../modules/WebSocket'
+
 import { wsConnectHandler, wsSendHandler, wsDisconnectHandler } from './types'
-import { EchoForm } from './EchoForm'
+import EchoForm from './EchoForm'
 
 const EchoWrapper: React.FC = () => {
   const wsUri = "wss://echo.websocket.org/"

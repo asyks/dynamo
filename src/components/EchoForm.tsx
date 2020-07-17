@@ -1,16 +1,17 @@
 import React from 'react'
 
 import { wsConnectHandler, wsSendHandler, wsDisconnectHandler } from './types'
+import MessageLog from './MessageLog'
 import '../styles/App.css'
 
-export interface Props {
+interface Props {
   connect: wsConnectHandler
   send: wsSendHandler
   disconnect: wsDisconnectHandler
 }
 
-export const EchoForm: React.FC<Props> = props => {
-  const [messageFromInput, setMessage] = React.useState("")
+const EchoForm: React.FC<Props> = props => {
+  const [messageFromInput, setMessage] = React.useState("Hello Websocket!")
   const [messages, setMessages] = React.useState([])
 
   const handleMessageUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,13 +21,6 @@ export const EchoForm: React.FC<Props> = props => {
   const appendMessageToLog = (message: string): void => {
     setMessages(messages => messages.concat([message] as never[]))
   }
-
-  const logElems: JSX.Element[] = []
-  messages.forEach((value, i) => {
-    logElems.push(
-      <li key={i}>{value}</li>
-    )
-  })
 
   return (
     <div>
@@ -41,8 +35,9 @@ export const EchoForm: React.FC<Props> = props => {
         () => { props.send(messageFromInput, appendMessageToLog) }
       }>Send</button>
       <button onClick={props.disconnect}>Disconnect</button>
-      <ul className="Web-socket-echo-log" id="log">{logElems}</ul>
+      <MessageLog messages={messages} />
     </div>
   )
 }
 
+export default EchoForm
