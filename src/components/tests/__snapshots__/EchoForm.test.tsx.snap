@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders with noop handlers 1`] = `
+<div>
+  <div>
+    <div>
+      websocket echo
+    </div>
+    <button>
+      Connect
+    </button>
+    <input
+      type="text"
+      value="Hello Websocket!"
+    />
+    <button>
+      Send
+    </button>
+    <button>
+      Disconnect
+    </button>
+    <ul
+      class="Web-socket-echo-log"
+    />
+  </div>
+</div>
+`;

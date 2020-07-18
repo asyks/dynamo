@@ -2,7 +2,9 @@ import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
 
-import MessageLog from '../MessageLog'
+import EchoForm from '../EchoForm'
+
+const noop = (): void => { }
 
 let container: Element | null = null
 
@@ -19,19 +21,15 @@ afterEach(() => {
   }
 })
 
-it("renders with or without messages", () => {
+it("renders with noop handlers", () => {
   act(() => {
-    render(<MessageLog messages={[]} />, container)
-  })
-  expect(container).toMatchSnapshot()
-
-  act(() => {
-    render(<MessageLog messages={["foo"]} />, container)
-  })
-  expect(container).toMatchSnapshot()
-
-  act(() => {
-    render(<MessageLog messages={["foo", "bar", "baz"]} />, container)
+    render(
+      <EchoForm
+        connect={noop}
+        disconnect={noop}
+        send={noop}
+      />,
+      container)
   })
   expect(container).toMatchSnapshot()
 })

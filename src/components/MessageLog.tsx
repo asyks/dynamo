@@ -7,7 +7,6 @@ interface Props {
 }
 
 const MessageLog: React.FC<Props> = props => {
-  console.log(props.messages)
   const logElems: JSX.Element[] = []
 
   props.messages.forEach((value, i) => {
