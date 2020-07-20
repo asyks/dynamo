@@ -1,39 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders with or without messages 1`] = `
-<div>
-  <ul
-    class="Web-socket-echo-log"
-  />
-</div>
+<ul
+  className="Web-socket-echo-log"
+/>
 `;
 
 exports[`renders with or without messages 2`] = `
-<div>
-  <ul
-    class="Web-socket-echo-log"
-  >
-    <li>
-      foo
-    </li>
-  </ul>
-</div>
+<ul
+  className="Web-socket-echo-log"
+>
+  <li>
+    foo
+  </li>
+</ul>
 `;
 
 exports[`renders with or without messages 3`] = `
-<div>
-  <ul
-    class="Web-socket-echo-log"
-  >
-    <li>
-      foo
-    </li>
-    <li>
-      bar
-    </li>
-    <li>
-      baz
-    </li>
-  </ul>
-</div>
+<ul
+  className="Web-socket-echo-log"
+>
+  <li>
+    foo
+  </li>
+  <li>
+    bar
+  </li>
+  <li>
+    baz
+  </li>
+</ul>
 `;

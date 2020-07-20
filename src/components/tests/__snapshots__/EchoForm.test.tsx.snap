@@ -3,25 +3,30 @@
 exports[`renders with noop handlers 1`] = `
 <div>
   <div>
-    <div>
-      websocket echo
-    </div>
-    <button>
-      Connect
-    </button>
-    <input
-      type="text"
-      value="Hello Websocket!"
-    />
-    <button>
-      Send
-    </button>
-    <button>
-      Disconnect
-    </button>
-    <ul
-      class="Web-socket-echo-log"
-    />
+    websocket echo
   </div>
+  <button
+    onClick={[Function]}
+  >
+    Connect
+  </button>
+  <input
+    onChange={[Function]}
+    type="text"
+    value="Hello Websocket!"
+  />
+  <button
+    onClick={[Function]}
+  >
+    Send
+  </button>
+  <button
+    onClick={[MockFunction]}
+  >
+    Disconnect
+  </button>
+  <ul
+    className="Web-socket-echo-log"
+  />
 </div>
 `;
