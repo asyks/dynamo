@@ -4,7 +4,7 @@ import { act } from 'react-dom/test-utils'
 
 import EchoForm from '../EchoForm'
 
-const noop = (): void => { }
+const noop = jest.fn()
 
 let container: Element | null = null
 

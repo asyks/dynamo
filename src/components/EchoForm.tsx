@@ -29,12 +29,22 @@ const EchoForm: React.FC<Props> = props => {
         () => {
           props.connect(appendMessageToLog)
         }
-      }>Connect</button>
-      <input type="text" value={messageFromInput} onChange={handleMessageUpdate} />
+      }>
+        Connect
+      </button>
+      <input
+        type="text"
+        value={messageFromInput}
+        onChange={handleMessageUpdate}
+      />
       <button onClick={
-        () => { props.send(messageFromInput, appendMessageToLog) }
+        () => {
+          props.send(messageFromInput, appendMessageToLog)
+        }
       }>Send</button>
-      <button onClick={props.disconnect}>Disconnect</button>
+      <button onClick={props.disconnect}>
+        Disconnect
+      </button>
       <MessageLog messages={messages} />
     </div>
   )
