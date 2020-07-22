@@ -4,10 +4,10 @@ import { fireEvent, render, getByDisplayValue } from '@testing-library/react'
 
 import EchoForm, { defaultMessage } from '../EchoForm'
 
-const noop = jest.fn()
-
 describe("components/EchoForm", () => {
   it("renders with noop handlers", () => {
+    const noop = jest.fn()
+
     expect(renderer.create(
       <EchoForm connect={noop} disconnect={noop} send={noop} />
     ).toJSON()).toMatchSnapshot()
