@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { fireEvent, render, getByDisplayValue } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 
 import EchoForm, { defaultMessage } from '../EchoForm'
 
