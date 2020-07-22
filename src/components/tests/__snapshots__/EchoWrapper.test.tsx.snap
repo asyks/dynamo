@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/EchoWrapper nominally renders 1`] = `
+<div>
+  <div>
+    websocket echo
+  </div>
+  <button
+    onClick={[Function]}
+  >
+    Connect
+  </button>
+  <input
+    onChange={[Function]}
+    type="text"
+    value="HelloWebSocket!"
+  />
+  <button
+    onClick={[Function]}
+  >
+    Send
+  </button>
+  <button
+    onClick={[Function]}
+  >
+    Disconnect
+  </button>
+  <ul
+    className="Web-socket-echo-log"
+  />
+</div>
+`;
