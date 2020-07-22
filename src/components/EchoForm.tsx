@@ -4,6 +4,8 @@ import { wsConnectHandler, wsSendHandler, wsDisconnectHandler } from './types'
 import MessageLog from './MessageLog'
 import '../styles/App.css'
 
+export const defaultMessage = "HelloWebSocket!"
+
 interface Props {
   connect: wsConnectHandler
   send: wsSendHandler
@@ -11,7 +13,7 @@ interface Props {
 }
 
 const EchoForm: React.FC<Props> = props => {
-  const [messageFromInput, setMessage] = React.useState("Hello Websocket!")
+  const [messageFromInput, setMessage] = React.useState(defaultMessage)
   const [messages, setMessages] = React.useState([])
 
   const handleMessageUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {

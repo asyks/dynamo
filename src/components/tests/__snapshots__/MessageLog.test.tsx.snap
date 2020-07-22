@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders with or without messages 1`] = `
+exports[`components/MessageLog renders with or without messages 1`] = `
 <ul
   className="Web-socket-echo-log"
 />
 `;
 
-exports[`renders with or without messages 2`] = `
+exports[`components/MessageLog renders with or without messages 2`] = `
 <ul
   className="Web-socket-echo-log"
 >
@@ -16,7 +16,7 @@ exports[`renders with or without messages 2`] = `
 </ul>
 `;
 
-exports[`renders with or without messages 3`] = `
+exports[`components/MessageLog renders with or without messages 3`] = `
 <ul
   className="Web-socket-echo-log"
 >
