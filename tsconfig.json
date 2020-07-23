@@ -22,5 +22,5 @@
   "include": [
     "src"
   ],
-  "types": []
+  "types": ["node", "react", "react-dom", "jest", "react-test-renderer"]
 }
