@@ -12,7 +12,7 @@ const EchoWrapper: React.FC = () => {
   const connect: wsConnectHandler = (eventCallback) => {
     websocket = new AttentedWebSocket(
       wsUri,
-      (evt) => {
+      evt => {
         messageEventWrapper(evt, eventCallback)
       },
     )
