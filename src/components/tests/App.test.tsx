@@ -1,13 +1,10 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import App from '../App';
+import React from 'react'
+import renderer from 'react-test-renderer'
 
-test("dummy test 1", () => {
-  expect(true);
-});
+import App from '../App'
 
-test("dummy test 2", () => {
-  const { getByText } = render(<App />);
-  const element = getByText("dynamo: a network diagnostic tool");
-  expect(element).toBeInstanceOf(HTMLElement);
-});
+describe("components/App", () => {
+  test("nominally renders", () => {
+    expect(renderer.create(<App />).toJSON()).toMatchSnapshot()
+  })
+})

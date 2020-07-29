@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/App nominally renders 1`] = `
+<div
+  className="App"
+>
+  <header
+    className="App-header"
+  >
+    dynamo: a network diagnostic tool
+  </header>
+  <div>
+    <div>
+      websocket echo
+    </div>
+    <button
+      onClick={[Function]}
+    >
+      Connect
+    </button>
+    <input
+      onChange={[Function]}
+      type="text"
+      value="HelloWebSocket!"
+    />
+    <button
+      onClick={[Function]}
+    >
+      Send
+    </button>
+    <button
+      onClick={[Function]}
+    >
+      Disconnect
+    </button>
+    <ul
+      className="Web-socket-echo-log"
+    />
+  </div>
+</div>
+`;
