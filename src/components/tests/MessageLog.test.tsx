@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer'
 import MessageLog from '../MessageLog'
 
 describe("components/MessageLog", () => {
-  it("renders with or without messages", () => {
+  test("renders with or without messages", () => {
     expect(
       renderer.create(<MessageLog messages={[]} />).toJSON()
     ).toMatchSnapshot()

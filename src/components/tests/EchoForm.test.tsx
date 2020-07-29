@@ -5,7 +5,7 @@ import { fireEvent, render } from '@testing-library/react'
 import EchoForm, { defaultMessage } from '../EchoForm'
 
 describe("components/EchoForm", () => {
-  it("renders with noop handlers", () => {
+  test("renders with noop handlers", () => {
     const noop = jest.fn()
 
     expect(renderer.create(
@@ -13,7 +13,7 @@ describe("components/EchoForm", () => {
     ).toJSON()).toMatchSnapshot()
   })
 
-  it("registers button clicks, and text input", () => {
+  test("registers button clicks, and text input", () => {
     const mockConnect = jest.fn()
     const mockDisconnect = jest.fn()
     const mockSend = jest.fn()

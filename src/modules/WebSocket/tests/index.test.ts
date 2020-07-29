@@ -13,7 +13,7 @@ describe("modules/WebSocket", () => {
     )
   })
 
-  it("handles simple event message sequence", () => {
+  test("handles simple event message sequence", () => {
     websocket.dispatchEvent(new Event("open"))
     websocket.dispatchEvent(
       new MessageEvent(
@@ -28,7 +28,7 @@ describe("modules/WebSocket", () => {
     expect(eventCallback).toHaveBeenCalledWith("DISCONNECTED")
   })
 
-  it("handles multiple event message sequence", () => {
+  test("handles multiple event message sequence", () => {
     websocket.dispatchEvent(new Event("open"))
     websocket.dispatchEvent(
       new MessageEvent(
@@ -57,7 +57,7 @@ describe("modules/WebSocket", () => {
     expect(eventCallback).toHaveBeenCalledWith("DISCONNECTED")
   })
 
-  it("handles error event sequence", () => {
+  test("handles error event sequence", () => {
     websocket.dispatchEvent(new Event("open"))
     websocket.dispatchEvent(
       new MessageEvent(
