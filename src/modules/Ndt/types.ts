@@ -1,13 +1,12 @@
 export interface ServerInfo {
   server: string
-  port: number
   path: string
+  port: number
 }
 
 export type Socketable = ServerInfo | WebSocket
 
 export type PossibleWebSocket = WebSocket | undefined
-
 
 export const isServerInfo = (socketableObj: Socketable): socketableObj is ServerInfo => {
   // Type guard for PossibleWebsocket constructor
