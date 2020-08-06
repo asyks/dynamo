@@ -15,11 +15,9 @@ export default class NdtClient implements NdtClientInterface {
           socketableObj.server + socketableObj.path + socketableObj.port
         )
       )
-      console.log("from server info")
     }
     else {
       this.websocket = socketableObj
-      console.log("from websocket")
     }
   }
 
