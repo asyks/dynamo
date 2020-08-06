@@ -1,26 +1,36 @@
 import NdtClient from '../index'
-import { MessageType } from '../constants'
+
+let mockWebSocket: jest.Mock
 
 describe("modules/Ndt", () => {
+  beforeEach(() => {
+    mockWebSocket = jest.fn()
+  })
+
+  afterEach(() => {
+    mockWebSocket.mockClear()
+  })
 
   test("instantiate from ServerInfo", () => {
-    expect(new NdtClient({
+    const ndtClient = new NdtClient({
       server: "wss://foo.bar",
       path: "/baz",
       port: 3001,
-    })).toHaveProperty("websocket")
+    })
+
+    expect(ndtClient).toHaveProperty("websocket")
   })
 
   test("instantiate from WebSocket", () => {
     const websocket = new WebSocket("wss://foo.bar/baz:3001")
-    expect(new NdtClient(websocket)).toHaveProperty("websocket")
+    const ndtClient = new NdtClient(websocket)
+
+    expect(ndtClient).toHaveProperty("websocket")
   })
 
   test("construct login message array", () => {
-    const websocket = new WebSocket("wss://foo.bar/baz:3001")
-    const ndtClient = new NdtClient(websocket)
+    const ndtClient = new NdtClient(new mockWebSocket)
 
     expect(ndtClient.login().length).toEqual(33)
   })
-
 })
