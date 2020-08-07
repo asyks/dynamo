@@ -6,7 +6,7 @@ export interface NdtClientInterface {
 }
 
 export default class NdtClient implements NdtClientInterface {
-  websocket: PossibleWebSocket = undefined
+  websocket: PossibleWebSocket
 
   public constructor(socketableObj: Socketable) {
     if (isServerInfo(socketableObj)) {
@@ -46,7 +46,7 @@ export default class NdtClient implements NdtClientInterface {
     return messageArray
   }
 
-  public login(testIdsArray?: number[]): Uint8Array {
+  public login(testIdsArray?: number[]): void {
     let testIds: string
     if (testIdsArray === undefined) {
       testIds = String(16)
@@ -64,6 +64,8 @@ export default class NdtClient implements NdtClientInterface {
       MessageType.MSG_EXTENDED_LOGIN, JSON.stringify(messageBody)
     )
 
-    return messageArray
+    if (this.websocket !== undefined) {
+      this.websocket.send(messageArray)
+    }
   }
 }

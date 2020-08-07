@@ -1,14 +1,12 @@
 import NdtClient from '../index'
 
-let mockWebSocket: jest.Mock
+let webSocketSend: jest.SpyInstance
 
 describe("modules/Ndt", () => {
   beforeEach(() => {
-    mockWebSocket = jest.fn()
-  })
-
-  afterEach(() => {
-    mockWebSocket.mockClear()
+    webSocketSend = jest.spyOn(
+      global.WebSocket.prototype, "send"
+    ).mockImplementation(() => { })
   })
 
   test("instantiate from ServerInfo", () => {
@@ -29,8 +27,18 @@ describe("modules/Ndt", () => {
   })
 
   test("construct login message array", () => {
-    const ndtClient = new NdtClient(new mockWebSocket)
+    const websocket = new WebSocket("wss://foo.bar/baz:3001")
+    const ndtClient = new NdtClient(websocket)
+    ndtClient.login()
 
-    expect(ndtClient.login().length).toEqual(33)
+    expect(webSocketSend).toHaveBeenCalledWith(
+      Uint8Array.from(
+        [
+          11, 0, 30, 123, 34, 109, 115, 103, 34, 58, 34,
+          51, 46, 55, 46, 48, 46, 50, 34, 44, 34, 116,
+          101, 115, 116, 115, 34, 58, 34, 49, 54, 34, 125
+        ]
+      )
+    )
   })
 })
