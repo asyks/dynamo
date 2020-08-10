@@ -1,5 +1,5 @@
 import { int255HexLiteral, MessageType, ndtVersion } from './constants'
-import { PossibleWebSocket, Socketable, isServerInfo } from './types'
+import { PossibleWebSocket, Socketable, isServerInfo, Message } from './types'
 
 export interface NdtClientInterface {
   websocket: PossibleWebSocket
@@ -70,10 +70,25 @@ export default class NdtClient implements NdtClientInterface {
     }
   }
 
-  public parseMessage(buffer: ArrayBuffer): Object {
-
+  public parseMessage(buffer: ArrayBuffer): Message {
+    let message: Message = {}
+    // Parse message "head", containing: TYPE and LENGTH, and validate length
     const uint8ArrayHead = new Uint8Array(buffer.slice(0, 2))
+    if (
+      (uint8ArrayHead.length - 3) === ((uint8ArrayHead[1] << 8) | uint8ArrayHead[2])
+    ) {
+      message.type = uint8ArrayHead[0]
+    }
+    else {
+      throw new Error('InvalidLengthError')
+    }
+
+    // Parse message BODY
     const uint8ArrayBody = new Uint8Array(buffer.slice(3))
-    String.fromCharCode.apply(null, uint8ArrayBody.values() as unknown as number[])
+    message.message = String.fromCharCode.apply(
+      null, Array.from(uint8ArrayBody.values())
+    )
+
+    return message
   }
 }

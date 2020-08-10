@@ -1,7 +1,7 @@
 
 export interface Message {
-  type: number
-  message: string
+  type?: number
+  message?: string
 }
 
 export interface ServerInfo {
