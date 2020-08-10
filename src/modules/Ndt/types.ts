@@ -1,3 +1,9 @@
+
+export interface Message {
+  type: number
+  message: string
+}
+
 export interface ServerInfo {
   server: string
   path: string

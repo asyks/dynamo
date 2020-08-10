@@ -19,6 +19,7 @@ export default class NdtClient implements NdtClientInterface {
     else {
       this.websocket = socketableObj
     }
+    this.websocket.binaryType = "arraybuffer"
   }
 
   private makeMessageArray(
@@ -67,5 +68,12 @@ export default class NdtClient implements NdtClientInterface {
     if (this.websocket !== undefined) {
       this.websocket.send(messageArray)
     }
+  }
+
+  public parseMessage(buffer: ArrayBuffer): Object {
+
+    const uint8ArrayHead = new Uint8Array(buffer.slice(0, 2))
+    const uint8ArrayBody = new Uint8Array(buffer.slice(3))
+    String.fromCharCode.apply(null, uint8ArrayBody.values() as unknown as number[])
   }
 }

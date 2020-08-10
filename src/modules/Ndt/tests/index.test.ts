@@ -5,7 +5,7 @@ let webSocketSend: jest.SpyInstance
 describe("modules/Ndt", () => {
   beforeEach(() => {
     webSocketSend = jest.spyOn(
-      global.WebSocket.prototype, "send"
+      WebSocket.prototype, "send"
     ).mockImplementation(() => { })
   })
 
