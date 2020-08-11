@@ -28,7 +28,7 @@ export default class NdtClient implements NdtClientInterface {
     /*
     Client-side messages have 3 parts:
       - TYPE: a message type integer from 0  - 11
-      - LENGTH: total length of the message in 8-bit bytes
+      - LENGTH: total length of the message BODY in 8-bit bytes
       - BODY: variable length content sent to server
 
      Length (in bytes) = TYPE (1) + LENGTH (2) + BODY = BODY + 3
@@ -72,21 +72,22 @@ export default class NdtClient implements NdtClientInterface {
 
   public parseMessage(buffer: ArrayBuffer): Message {
     let message: Message = {}
-    // Parse message "head", containing: TYPE and LENGTH, and validate length
-    const uint8ArrayHead = new Uint8Array(buffer.slice(0, 2))
+
+    const messageArray = new Uint8Array(buffer)
+    // Validate the length of the message BODY by comparing to LENGTH
     if (
-      (uint8ArrayHead.length - 3) === ((uint8ArrayHead[1] << 8) | uint8ArrayHead[2])
+      (messageArray.length - 3) === ((messageArray[1] << 8) | messageArray[2])
     ) {
-      message.type = uint8ArrayHead[0]
+      // If length is valid assign type from TYPE
+      message.type = messageArray[0]
     }
     else {
       throw new Error('InvalidLengthError')
     }
 
-    // Parse message BODY
-    const uint8ArrayBody = new Uint8Array(buffer.slice(3))
-    message.message = String.fromCharCode.apply(
-      null, Array.from(uint8ArrayBody.values())
+    // Construct message from BODY
+    message.body = String.fromCharCode.apply(
+      null, Array.from(messageArray.slice(3))
     )
 
     return message
