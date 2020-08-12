@@ -1,7 +1,14 @@
+export interface SendBody {
+  msg: string,
+}
+
+export interface LoginBody extends SendBody {
+  tests: string,
+}
 
 export interface Message {
-  type?: number
-  body?: string
+  type: number
+  body: string | SendBody | LoginBody
 }
 
 export interface ServerInfo {

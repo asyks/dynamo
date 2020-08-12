@@ -1,5 +1,5 @@
 import { int255HexLiteral, MessageType, ndtVersion } from './constants'
-import { PossibleWebSocket, Socketable, isServerInfo, Message } from './types'
+import { PossibleWebSocket, Socketable, isServerInfo, Message, LoginBody } from './types'
 
 export interface NdtClientInterface {
   websocket: PossibleWebSocket
@@ -25,7 +25,8 @@ export default class NdtClient implements NdtClientInterface {
   private makeMessageArray(
     messageType: MessageType, messageBody: string
   ): Uint8Array {
-    /*
+    /* Send login message to server.
+
     Client-side messages have 3 parts:
       - TYPE: a message type integer from 0  - 11
       - LENGTH: total length of the message BODY in 8-bit bytes
@@ -56,7 +57,7 @@ export default class NdtClient implements NdtClientInterface {
       testIds = String(testIdsArray.join(""))
     }
 
-    const messageBody = {
+    const messageBody: LoginBody = {
       msg: ndtVersion,
       tests: testIds,
     }
@@ -71,25 +72,24 @@ export default class NdtClient implements NdtClientInterface {
   }
 
   public parseMessage(buffer: ArrayBuffer): Message {
-    let message: Message = {}
+    /* Parse message received from server.
 
+     - Validate the length of the message BODY by comparing to LENGTH
+     - If length is valid assign type from TYPE
+     - Construct message from BODY
+    */
     const messageArray = new Uint8Array(buffer)
-    // Validate the length of the message BODY by comparing to LENGTH
     if (
-      (messageArray.length - 3) === ((messageArray[1] << 8) | messageArray[2])
+      (messageArray.length - 3) !== ((messageArray[1] << 8) | messageArray[2])
     ) {
-      // If length is valid assign type from TYPE
-      message.type = messageArray[0]
-    }
-    else {
       throw new Error('InvalidLengthError')
     }
 
-    // Construct message from BODY
-    message.body = String.fromCharCode.apply(
-      null, Array.from(messageArray.slice(3))
-    )
-
-    return message
+    return {
+      type: messageArray[0],
+      body: String.fromCharCode.apply(
+        null, Array.from(messageArray.slice(3))
+      ),
+    }
   }
 }
