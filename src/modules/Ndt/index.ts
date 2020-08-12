@@ -1,5 +1,5 @@
 import { int255HexLiteral, MessageType, ndtVersion } from './constants'
-import { PossibleWebSocket, Socketable, isServerInfo, Message, LoginBody } from './types'
+import { PossibleWebSocket, Socketable, isServerInfo, ClientMessage, ServerMessage } from './types'
 
 export interface NdtClientInterface {
   websocket: PossibleWebSocket
@@ -48,6 +48,16 @@ export default class NdtClient implements NdtClientInterface {
     return messageArray
   }
 
+  public send(message: ClientMessage): void {
+    const messageArray = this.makeMessageArray(
+      message.type, JSON.stringify(message.body)
+    )
+
+    if (this.websocket !== undefined) {
+      this.websocket.send(messageArray)
+    }
+  }
+
   public login(testIdsArray?: number[]): void {
     let testIds: string
     if (testIdsArray === undefined) {
@@ -57,21 +67,16 @@ export default class NdtClient implements NdtClientInterface {
       testIds = String(testIdsArray.join(""))
     }
 
-    const messageBody: LoginBody = {
-      msg: ndtVersion,
-      tests: testIds,
-    }
-
-    const messageArray = this.makeMessageArray(
-      MessageType.MSG_EXTENDED_LOGIN, JSON.stringify(messageBody)
-    )
-
-    if (this.websocket !== undefined) {
-      this.websocket.send(messageArray)
-    }
+    this.send({
+      type: MessageType.MSG_EXTENDED_LOGIN,
+      body: {
+        msg: ndtVersion,
+        tests: testIds,
+      }
+    })
   }
 
-  public parseMessage(buffer: ArrayBuffer): Message {
+  public parseMessage(buffer: ArrayBuffer): ServerMessage {
     /* Parse message received from server.
 
      - Validate the length of the message BODY by comparing to LENGTH
