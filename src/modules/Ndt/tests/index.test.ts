@@ -54,7 +54,6 @@ describe("modules/Ndt client public methods", () => {
     const messageArray = [
       MessageType.SRV_QUEUE, (messageLength >> 8) & int255HexLiteral,
       messageLength & int255HexLiteral, 1, 2, 3, 4, 5
-
     ]
     const uint8Array = Uint8Array.from(messageArray)
 
