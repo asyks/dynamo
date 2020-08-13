@@ -1,14 +1,8 @@
 import NdtClient from '../index'
-import { MessageType, int255HexLiteral } from '../constants'
+import { MessageType, int255HexLiteral, ndtVersion } from '../constants'
+import { ClientMessage } from '../types'
 
-let webSocketSend: jest.SpyInstance
-beforeEach(() => {
-  webSocketSend = jest.spyOn(
-    WebSocket.prototype, "send"
-  ).mockImplementation(() => { })
-})
-
-describe("modules/Ndt client constructor", () => {
+describe("modules/Ndt.constructor", () => {
 
   test("instantiate from ServerInfo", () => {
     const ndtClient = new NdtClient({
@@ -28,12 +22,49 @@ describe("modules/Ndt client constructor", () => {
   })
 })
 
-describe("modules/Ndt client public methods", () => {
+describe("modules/Ndt.send", () => {
+  let webSocketSend: jest.SpyInstance
+  let ndtClient: NdtClient
 
-  test("login", () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+
+    webSocketSend = jest.spyOn(
+      WebSocket.prototype, "send"
+    ).mockImplementation(() => { })
+
     const websocket = new WebSocket("wss://foo.bar/baz:3001")
-    const ndtClient = new NdtClient(websocket)
-    ndtClient.login()
+    ndtClient = new NdtClient(websocket)
+  })
+
+  test("with SendBody", () => {
+    const message: ClientMessage = {
+      type: MessageType.TEST_MSG,
+      body: {
+        msg: "foobar",
+      },
+    }
+    ndtClient.send(message)
+
+    expect(webSocketSend).toHaveBeenCalledWith(
+      Uint8Array.from(
+        [
+          5, 0, 16, 123, 34, 109, 115, 103, 34, 58,
+          34, 102, 111, 111, 98, 97, 114, 34, 125,
+        ]
+      )
+    )
+  })
+
+  test("with LoginBody", () => {
+    const message: ClientMessage = {
+      type: MessageType.MSG_EXTENDED_LOGIN,
+      body: {
+        msg: ndtVersion,
+        tests: "16"
+      },
+    }
+    ndtClient.send(message)
 
     expect(webSocketSend).toHaveBeenCalledWith(
       Uint8Array.from(
@@ -45,6 +76,43 @@ describe("modules/Ndt client public methods", () => {
       )
     )
   })
+})
+
+describe("modules/Ndt.login", () => {
+  let ndtClientSend: jest.SpyInstance
+  let ndtClient: NdtClient
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+
+    ndtClientSend = jest.spyOn(
+      NdtClient.prototype, "send"
+    ).mockImplementation(() => { })
+
+    const websocket = new WebSocket("wss://foo.bar/baz:3001")
+    ndtClient = new NdtClient(websocket)
+  })
+
+  afterEach(() => {
+    ndtClientSend.mockRestore()
+  })
+
+  test("login", () => {
+    ndtClient.login()
+
+    expect(ndtClientSend).toHaveBeenCalledWith(
+      {
+        type: MessageType.MSG_EXTENDED_LOGIN,
+        body: {
+          msg: ndtVersion,
+          tests: "16"
+        },
+      }
+    )
+  })
+})
+
+describe("modules/Ndt client public methods", () => {
 
   test("parseMessage", () => {
     const websocket = new WebSocket("wss://foo.bar/baz:3001")
