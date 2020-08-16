@@ -49,6 +49,7 @@ export default class NdtClient implements NdtClientInterface {
   }
 
   public send(message: ClientMessage): void {
+    /* Send message to server. */
     const messageArray = this.makeMessageArray(
       message.type, JSON.stringify(message.body)
     )
@@ -59,6 +60,11 @@ export default class NdtClient implements NdtClientInterface {
   }
 
   public login(tests?: number): void {
+    /* Send login message to server.
+
+    Login message type is MSG_EXTENDED_LOGIN.
+    Send `tests` to the server as a bitwise OR of test ids.
+    */
     this.send({
       type: MessageType.MSG_EXTENDED_LOGIN,
       body: {
