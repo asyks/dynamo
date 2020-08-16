@@ -4,7 +4,7 @@ import {
 } from '../constants'
 import { ClientMessage } from '../types'
 
-describe("modules/Ndt.constructor", () => {
+describe("Ndt.NdtClient.constructor", () => {
 
   test("instantiate from ServerInfo", () => {
     const ndtClient = new NdtClient({
@@ -24,7 +24,7 @@ describe("modules/Ndt.constructor", () => {
   })
 })
 
-describe("modules/Ndt.send", () => {
+describe("Ndt.NdtClient.send", () => {
   let webSocketSend: jest.SpyInstance
   let ndtClient: NdtClient
 
@@ -80,7 +80,7 @@ describe("modules/Ndt.send", () => {
   })
 })
 
-describe("modules/Ndt.login", () => {
+describe("Ndt.NdtClient.login", () => {
   let ndtClientSend: jest.SpyInstance
   let ndtClient: NdtClient
 
@@ -147,9 +147,9 @@ describe("modules/Ndt.login", () => {
   })
 })
 
-describe("modules/Ndt client public methods", () => {
+describe("Ndt.NdtClient.parseMessage", () => {
 
-  test("parseMessage", () => {
+  test("arbitrary message", () => {
     const websocket = new WebSocket("wss://foo.bar/baz:3001")
     const ndtClient = new NdtClient(websocket)
 
