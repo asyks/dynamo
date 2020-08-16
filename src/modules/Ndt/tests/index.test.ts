@@ -97,7 +97,7 @@ describe("modules/Ndt.login", () => {
     ndtClientSend.mockRestore()
   })
 
-  test("default test only", () => {
+  test("default status test only", () => {
     ndtClient.login()
 
     expect(ndtClientSend).toHaveBeenCalledWith(
@@ -112,7 +112,7 @@ describe("modules/Ndt.login", () => {
   })
 
   test("single additional test", () => {
-    ndtClient.login(2)
+    ndtClient.login([2])
 
     expect(ndtClientSend).toHaveBeenCalledWith(
       {
@@ -126,7 +126,7 @@ describe("modules/Ndt.login", () => {
   })
 
   test("several additional tests", () => {
-    ndtClient.login(2 | 4 | 8)
+    ndtClient.login([2, 4, 8])
 
     expect(ndtClientSend).toHaveBeenCalledWith(
       {

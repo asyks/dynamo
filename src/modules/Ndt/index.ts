@@ -59,17 +59,18 @@ export default class NdtClient implements NdtClientInterface {
     }
   }
 
-  public login(tests?: number): void {
+  public login(testIds: number[] = []): void {
     /* Send login message to server.
 
-    Login message type is MSG_EXTENDED_LOGIN.
-    Send `tests` to the server as a bitwise OR of test ids.
+     - Login message type is MSG_EXTENDED_LOGIN.
+     - Send `tests` to the server as a bitwise OR of test ids.
+     - By default the TEST_STATUS (16) test is always sent.
     */
     this.send({
       type: MessageType.MSG_EXTENDED_LOGIN,
       body: {
         msg: ndtVersion,
-        tests: Number(tests) | 16,
+        tests: testIds.reduce((testsNum, testId) => (testsNum | testId), 16)
       }
     })
   }
