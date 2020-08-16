@@ -1,5 +1,7 @@
 import NdtClient from '../index'
-import { MessageType, int255HexLiteral, ndtVersion } from '../constants'
+import {
+  MessageType, TestIds, int255HexLiteral, ndtVersion
+} from '../constants'
 import { ClientMessage } from '../types'
 
 describe("modules/Ndt.constructor", () => {
@@ -61,7 +63,7 @@ describe("modules/Ndt.send", () => {
       type: MessageType.MSG_EXTENDED_LOGIN,
       body: {
         msg: ndtVersion,
-        tests: 16
+        tests: TestIds.TEST_STATUS,
       },
     }
     ndtClient.send(message)
@@ -105,35 +107,40 @@ describe("modules/Ndt.login", () => {
         type: MessageType.MSG_EXTENDED_LOGIN,
         body: {
           msg: ndtVersion,
-          tests: 16
+          tests: TestIds.TEST_STATUS,
         },
       }
     )
   })
 
   test("single additional test", () => {
-    ndtClient.login([2])
+    ndtClient.login([TestIds.TEST_C2S])
 
     expect(ndtClientSend).toHaveBeenCalledWith(
       {
         type: MessageType.MSG_EXTENDED_LOGIN,
         body: {
           msg: ndtVersion,
-          tests: 2 | 16
+          tests: TestIds.TEST_C2S | TestIds.TEST_STATUS,
         },
       }
     )
   })
 
   test("several additional tests", () => {
-    ndtClient.login([2, 4, 8])
+    ndtClient.login([TestIds.TEST_C2S, TestIds.TEST_S2C, TestIds.TEST_SFW])
 
     expect(ndtClientSend).toHaveBeenCalledWith(
       {
         type: MessageType.MSG_EXTENDED_LOGIN,
         body: {
           msg: ndtVersion,
-          tests: 2 | 4 | 8 | 16
+          tests: (
+            TestIds.TEST_C2S
+            | TestIds.TEST_S2C
+            | TestIds.TEST_SFW
+            | TestIds.TEST_STATUS
+          ),
         },
       }
     )

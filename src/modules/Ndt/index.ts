@@ -1,5 +1,9 @@
-import { int255HexLiteral, MessageType, ndtVersion } from './constants'
-import { PossibleWebSocket, Socketable, isServerInfo, ClientMessage, ServerMessage } from './types'
+import {
+  MessageType, TestIds, int255HexLiteral, ndtVersion
+} from './constants'
+import {
+  PossibleWebSocket, Socketable, isServerInfo, ClientMessage, ServerMessage
+} from './types'
 
 export interface NdtClientInterface {
   websocket: PossibleWebSocket
@@ -59,7 +63,7 @@ export default class NdtClient implements NdtClientInterface {
     }
   }
 
-  public login(testIds: number[] = []): void {
+  public login(testIds: TestIds[] = []): void {
     /* Send login message to server.
 
      - Login message type is MSG_EXTENDED_LOGIN.
@@ -70,7 +74,9 @@ export default class NdtClient implements NdtClientInterface {
       type: MessageType.MSG_EXTENDED_LOGIN,
       body: {
         msg: ndtVersion,
-        tests: testIds.reduce((testsNum, testId) => (testsNum | testId), 16)
+        tests: testIds.reduce(
+          (testsNum, testId) => (testsNum | testId), TestIds.TEST_STATUS
+        )
       }
     })
   }

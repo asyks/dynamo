@@ -14,6 +14,15 @@ export enum MessageType {
   MSG_EXTENDED_LOGIN = 11,
 }
 
+export enum TestIds {
+  TEST_MID = 1,
+  TEST_C2S = 2,
+  TEST_S2C = 4,
+  TEST_SFW = 8,
+  TEST_STATUS = 16,
+  TEST_META = 32,
+}
+
 export const ndtVersion: string = "3.7.0.2"
 
 export const int255HexLiteral: number = 0xFF
