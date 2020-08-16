@@ -61,7 +61,7 @@ describe("modules/Ndt.send", () => {
       type: MessageType.MSG_EXTENDED_LOGIN,
       body: {
         msg: ndtVersion,
-        tests: "16"
+        tests: 16
       },
     }
     ndtClient.send(message)
@@ -69,9 +69,9 @@ describe("modules/Ndt.send", () => {
     expect(webSocketSend).toHaveBeenCalledWith(
       Uint8Array.from(
         [
-          11, 0, 30, 123, 34, 109, 115, 103, 34, 58, 34,
-          51, 46, 55, 46, 48, 46, 50, 34, 44, 34, 116,
-          101, 115, 116, 115, 34, 58, 34, 49, 54, 34, 125
+          11, 0, 28, 123, 34, 109, 115, 103, 34, 58,
+          34, 51, 46, 55, 46, 48, 46, 50, 34, 44, 34,
+          116, 101, 115, 116, 115, 34, 58, 49, 54, 125
         ]
       )
     )
@@ -97,7 +97,7 @@ describe("modules/Ndt.login", () => {
     ndtClientSend.mockRestore()
   })
 
-  test("login", () => {
+  test("default test only", () => {
     ndtClient.login()
 
     expect(ndtClientSend).toHaveBeenCalledWith(
@@ -105,7 +105,35 @@ describe("modules/Ndt.login", () => {
         type: MessageType.MSG_EXTENDED_LOGIN,
         body: {
           msg: ndtVersion,
-          tests: "16"
+          tests: 16
+        },
+      }
+    )
+  })
+
+  test("single additional test", () => {
+    ndtClient.login(2)
+
+    expect(ndtClientSend).toHaveBeenCalledWith(
+      {
+        type: MessageType.MSG_EXTENDED_LOGIN,
+        body: {
+          msg: ndtVersion,
+          tests: 2 | 16
+        },
+      }
+    )
+  })
+
+  test("several additional tests", () => {
+    ndtClient.login(2 | 4 | 8)
+
+    expect(ndtClientSend).toHaveBeenCalledWith(
+      {
+        type: MessageType.MSG_EXTENDED_LOGIN,
+        body: {
+          msg: ndtVersion,
+          tests: 2 | 4 | 8 | 16
         },
       }
     )

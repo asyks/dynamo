@@ -3,7 +3,7 @@ export interface SendBody {
 }
 
 export interface LoginBody extends SendBody {
-  tests: string,
+  tests: number,
 }
 
 export interface ClientMessage {

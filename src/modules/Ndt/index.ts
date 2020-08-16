@@ -58,20 +58,12 @@ export default class NdtClient implements NdtClientInterface {
     }
   }
 
-  public login(testIdsArray?: number[]): void {
-    let testIds: string
-    if (testIdsArray === undefined) {
-      testIds = String(16)
-    }
-    else {
-      testIds = String(testIdsArray.join(""))
-    }
-
+  public login(tests?: number): void {
     this.send({
       type: MessageType.MSG_EXTENDED_LOGIN,
       body: {
         msg: ndtVersion,
-        tests: testIds,
+        tests: Number(tests) | 16,
       }
     })
   }
