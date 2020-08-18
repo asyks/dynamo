@@ -22,6 +22,22 @@ export interface ServerInfo {
   port: number
 }
 
+export interface LocateApiV2Resp {
+  results: [
+    {
+      machine: string
+      location: {
+        city: string
+        country: string
+      }
+      urls: {
+        "ws:///ndt/v7/download": string
+        "ws:///ndt/v7/upload": string
+      }
+    }
+  ]
+}
+
 export type Socketable = ServerInfo | WebSocket
 
 export type PossibleWebSocket = WebSocket | undefined

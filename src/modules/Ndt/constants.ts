@@ -1,4 +1,3 @@
-
 export enum MessageType {
   COMM_FAILURE = 0,
   SRV_QUEUE = 1,
@@ -26,3 +25,7 @@ export enum TestIds {
 export const ndtVersion: string = "3.7.0.2"
 
 export const int255HexLiteral: number = 0xFF
+
+export const mLabLocateApiV2Url: URL = new URL(
+  "https://locate.measurementlab.net/v2/nearest/ndt/ndt7"
+)
