@@ -1,18 +1,17 @@
-import * as https from "https"
+import * as https from 'https'
 
-import { mLabLocateApiV2Url } from "./constants"
-import { LocateApiV2Resp } from "./types"
+import { mLabLocateApiV2Url } from './constants'
+import { LocateApiV2Resp } from './types'
 
-const getServiceData = (): LocateApiV2Resp => {
-  let respData: string = ""
+export const getServiceData = (): Promise<LocateApiV2Resp> => {
+  return new Promise(resolve => {
+    let respData: string = ""
 
-  const req = https.get(mLabLocateApiV2Url, resp => {
-    resp.on("data", (chunk) => {
-      respData += chunk
+    https.get(mLabLocateApiV2Url, resp => {
+      resp.on("data", (chunk) => { respData += chunk })
+      resp.on("end", () => { resolve(JSON.parse(respData)) })
+    }).on("error", (err) => {
+      console.log("Error: " + err.message);
     })
   })
-
-  req.end()
-
-  return JSON.parse(respData)
 }
