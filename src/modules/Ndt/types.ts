@@ -22,20 +22,27 @@ export interface ServerInfo {
   port: number
 }
 
-export interface LocateApiV2Resp {
-  results: [
-    {
-      machine: string
-      location: {
-        city: string
-        country: string
-      }
-      urls: {
-        "ws:///ndt/v7/download": string
-        "ws:///ndt/v7/upload": string
-      }
-    }
-  ]
+export interface LocateApiV2Result {
+  machine: string
+  location: {
+    city: string
+    country: string
+  }
+  urls: {
+    "wss:///ndt/v7/download": string
+    "wss:///ndt/v7/upload": string
+    "ws:///ndt/v7/download": string
+    "ws:///ndt/v7/upload": string
+  }
+}
+
+export interface LocateApiV2Response {
+  results: LocateApiV2Result[]
+}
+
+export interface serviceUrlPair {
+  download: URL
+  upload: URL
 }
 
 export type Socketable = ServerInfo | WebSocket
