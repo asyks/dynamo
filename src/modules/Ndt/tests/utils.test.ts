@@ -25,12 +25,12 @@ describe("Ndt/utils.parseServiceUrls", () => {
       }
     }
 
-    expect(parseSecureServiceUrls(result)).toBe({
-      "wss:///ndt/v7/download": (
-        "wss://ndt-mlab2-lga05.fake.org/ndt/v7/download?access_token="
+    expect(parseSecureServiceUrls(result)).toStrictEqual({
+      "download": (
+        new URL("wss://ndt-mlab2-lga05.fake.org/ndt/v7/download?access_token=")
       ),
-      "wss:///ndt/v7/upload": (
-        "wss://ndt-mlab2-lga05.fake.org/ndt/v7/upload?access_token="
+      "upload": (
+        new URL("wss://ndt-mlab2-lga05.fake.org/ndt/v7/upload?access_token=")
       ),
     })
   })
