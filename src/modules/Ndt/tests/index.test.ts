@@ -39,7 +39,7 @@ describe("Ndt.NdtClient.send", () => {
     ndtClient = new NdtClient(websocket)
   })
 
-  test("with SendBody", () => {
+  test("with SendBody typed array", () => {
     const message: ClientMessage = {
       type: MessageType.TEST_MSG,
       body: {
@@ -58,7 +58,7 @@ describe("Ndt.NdtClient.send", () => {
     )
   })
 
-  test("with LoginBody", () => {
+  test("with LoginBody typed array", () => {
     const message: ClientMessage = {
       type: MessageType.MSG_EXTENDED_LOGIN,
       body: {
