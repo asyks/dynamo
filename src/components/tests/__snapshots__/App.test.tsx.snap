@@ -37,5 +37,15 @@ exports[`components/App nominally renders 1`] = `
       className="Web-socket-echo-log"
     />
   </div>
+  <div>
+    <div>
+      speed test
+    </div>
+    <button
+      onClick={[Function]}
+    >
+      Connect
+    </button>
+  </div>
 </div>
 `;

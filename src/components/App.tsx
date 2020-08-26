@@ -1,6 +1,7 @@
 import React from 'react'
 
 import EchoWrapper from './EchoWrapper'
+import SpeedTest from './SpeedTest'
 import '../styles/App.css'
 
 
@@ -11,6 +12,7 @@ const App: React.FC = () => {
         dynamo: a network diagnostic tool
       </header>
       <EchoWrapper />
+      <SpeedTest />
     </div>
   );
 }
