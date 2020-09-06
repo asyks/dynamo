@@ -2,14 +2,14 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import { fireEvent, render } from '@testing-library/react'
 
-import EchoForm, { defaultMessage } from '../EchoForm'
+import WebSocketEchoForm, { defaultMessage } from '../WebSocketEchoForm'
 
-describe("components/EchoForm", () => {
+describe("components/WebSocketEchoForm", () => {
   test("renders with noop handlers", () => {
     const noop = jest.fn()
 
     expect(renderer.create(
-      <EchoForm connect={noop} disconnect={noop} send={noop} />
+      <WebSocketEchoForm connect={noop} disconnect={noop} send={noop} />
     ).toJSON()).toMatchSnapshot()
   })
 
@@ -18,7 +18,7 @@ describe("components/EchoForm", () => {
     const mockDisconnect = jest.fn()
     const mockSend = jest.fn()
     const { container, getByText, getByDisplayValue } = render(
-      <EchoForm
+      <WebSocketEchoForm
         connect={mockConnect}
         disconnect={mockDisconnect}
         send={mockSend}

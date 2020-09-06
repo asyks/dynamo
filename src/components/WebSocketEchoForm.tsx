@@ -12,7 +12,7 @@ interface Props {
   disconnect: wsDisconnectHandler
 }
 
-const EchoForm: React.FC<Props> = props => {
+const WebSocketEchoForm: React.FC<Props> = props => {
   const [messageFromInput, setMessage] = React.useState(defaultMessage)
   const [messages, setMessages] = React.useState([])
 
@@ -52,4 +52,4 @@ const EchoForm: React.FC<Props> = props => {
   )
 }
 
-export default EchoForm
+export default WebSocketEchoForm

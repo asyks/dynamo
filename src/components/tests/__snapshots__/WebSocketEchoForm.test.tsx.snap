@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/EchoWrapper nominally renders 1`] = `
+exports[`components/WebSocketEchoForm renders with noop handlers 1`] = `
 <div>
   <div>
     websocket echo
@@ -21,7 +21,7 @@ exports[`components/EchoWrapper nominally renders 1`] = `
     Send
   </button>
   <button
-    onClick={[Function]}
+    onClick={[MockFunction]}
   >
     Disconnect
   </button>

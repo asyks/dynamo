@@ -1,6 +1,6 @@
 import React from 'react'
 
-import EchoWrapper from './EchoWrapper'
+import WebSocketEcho from './WebSocketEcho'
 import SpeedTest from './SpeedTest'
 import '../styles/App.css'
 
@@ -11,7 +11,7 @@ const App: React.FC = () => {
       <header className="App-header">
         dynamo: a network diagnostic tool
       </header>
-      <EchoWrapper />
+      <WebSocketEcho />
       <SpeedTest />
     </div>
   );
