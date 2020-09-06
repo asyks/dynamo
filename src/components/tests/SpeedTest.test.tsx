@@ -12,6 +12,7 @@ describe("components/SpeedTest", () => {
   let mockedAsyncGet = requests.asyncGet as jest.Mock
 
   beforeEach(() => {
+    mockedAsyncGet.mockClear()
     mockedAsyncGet.mockResolvedValue({
       results: [{
         urls: {
@@ -27,13 +28,19 @@ describe("components/SpeedTest", () => {
   })
 
   test("nominally renders", () => {
-    expect(renderer.create(<SpeedTest />)).toMatchSnapshot()
+    let rendered
+    renderer.act(() => {
+      rendered = renderer.create(<SpeedTest />)
+    })
+
+    expect(rendered).toMatchSnapshot()
+    expect(mockedAsyncGet.mock.calls.length).toBe(1)
   })
 
   test("registers button click", () => {
     const { container, getByText } = render(<SpeedTest />)
     fireEvent.click(getByText("Connect"))
 
-    expect(mockedAsyncGet.mock.calls.length).toBe(1)
+    expect(mockedAsyncGet.mock.calls.length).toBe(2)
   })
 })
