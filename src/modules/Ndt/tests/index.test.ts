@@ -6,21 +6,17 @@ import { ClientMessage } from '../types'
 
 describe("Ndt.NdtClient.constructor", () => {
 
-  test("instantiate from ServerInfo", () => {
-    const ndtClient = new NdtClient({
-      server: "wss://foo.bar",
-      path: "/baz",
-      port: 3001,
-    })
+  test("instantiate with url type string", () => {
+    const ndtClient = new NdtClient("wss://foo.bar:3001/baz")
 
     expect(ndtClient).toHaveProperty("websocket")
+    expect(typeof ndtClient.websocket).toEqual("object")
   })
 
-  test("instantiate from WebSocket", () => {
-    const websocket = new WebSocket("wss://foo.bar/baz:3001")
-    const ndtClient = new NdtClient(websocket)
+  test("instantiate with url type URL", () => {
+    const ndtClient = new NdtClient(new URL("wss://foo.bar/baz:3001"))
 
-    expect(ndtClient).toHaveProperty("websocket")
+    expect(typeof ndtClient.websocket).toEqual("object")
   })
 })
 
@@ -35,8 +31,7 @@ describe("Ndt.NdtClient.send", () => {
       WebSocket.prototype, "send"
     ).mockImplementation(() => { })
 
-    const websocket = new WebSocket("wss://foo.bar/baz:3001")
-    ndtClient = new NdtClient(websocket)
+    ndtClient = new NdtClient("wss://foo.bar/baz:3001")
   })
 
   test("with SendBody typed array", () => {
@@ -91,8 +86,7 @@ describe("Ndt.NdtClient.login", () => {
       NdtClient.prototype, "send"
     ).mockImplementation(() => { })
 
-    const websocket = new WebSocket("wss://foo.bar/baz:3001")
-    ndtClient = new NdtClient(websocket)
+    ndtClient = new NdtClient("wss://foo.bar/baz:3001")
   })
 
   afterEach(() => {
@@ -150,8 +144,7 @@ describe("Ndt.NdtClient.login", () => {
 describe("Ndt.NdtClient.parseMessage", () => {
 
   test("arbitrary message", () => {
-    const websocket = new WebSocket("wss://foo.bar/baz:3001")
-    const ndtClient = new NdtClient(websocket)
+    const ndtClient = new NdtClient("wss://foo.bar/baz:3001")
 
     const messageLength = 5
     const messageArray = [
