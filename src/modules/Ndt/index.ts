@@ -1,5 +1,4 @@
-import { MessageType, TestIds, int255HexLiteral, ndtVersion } from './constants'
-import { ServerMessage } from './types'
+import { MessageType, TestIds, ndtVersion } from './constants'
 import { ClientMessage } from './messages'
 
 export interface NdtClientInterface {
@@ -12,7 +11,7 @@ export default class NdtClient implements NdtClientInterface {
   websocket: WebSocket
 
   /**
-   * * NdtClient class constructor
+   * NdtClient class constructor
    * @param serverUrl The url string or object for the ndt server.
    * @param protocol The name of the protocol to use (default "ndt").
    */
@@ -28,20 +27,22 @@ export default class NdtClient implements NdtClientInterface {
     this.websocket.binaryType = "arraybuffer"
   }
 
+  /**
+   * Send a single message to the server
+   * @param message The message to send to the server.
+   */
   public send(message: ClientMessage): void {
-    /** Send message to server. */
     if (this.websocket !== undefined) {
       this.websocket.send(message.data)
     }
   }
 
-
   /**
-   * Send login message to server.
+   * Send a login message to the server
    * * Login message type is MSG_EXTENDED_LOGIN.
    * * Send `tests` to the server as a bitwise OR of test ids.
    * * By default the TEST_STATUS (16) test is always sent.
-   * @param testIds 
+   * @param testIds The ids of the desired tests to be performed.
    */
   public login(testIds: TestIds[] = []): void {
     this.send(new ClientMessage(
