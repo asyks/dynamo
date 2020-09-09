@@ -1,5 +1,6 @@
 import { MessageType, TestIds, int255HexLiteral, ndtVersion } from './constants'
-import { ClientMessage, ServerMessage } from './types'
+import { ServerMessage } from './types'
+import { ClientMessage } from './messages'
 
 export interface NdtClientInterface {
   serverUrl: string
@@ -27,41 +28,10 @@ export default class NdtClient implements NdtClientInterface {
     this.websocket.binaryType = "arraybuffer"
   }
 
-  /**
-   * Create a TypedArray of message bytes
-   * Client-side messages have 3 parts:
-   * * TYPE: a message type integer from 0  - 11
-   * * LENGTH: total length of the message BODY in 8-bit bytes
-   * * BODY: variable length content sent to server
-   * Length (in bytes) = TYPE (1) + LENGTH (2) + BODY = BODY + 3
-   * @param messageType 
-   * @param messageBody 
-   */
-  private makeMessageArray(
-    messageType: MessageType, messageBody: string
-  ): Uint8Array {
-    const messageArray = new Uint8Array(messageBody.length + 3)
-
-    messageArray[0] = messageType
-    /** Ensure LENGTH always occupies 2 bytes */
-    messageArray[1] = (messageBody.length >> 8) & int255HexLiteral
-    messageArray[2] = messageBody.length & int255HexLiteral
-
-    for (let i: number = 0; i < messageBody.length; i += 1) {
-      messageArray[3 + i] = messageBody.charCodeAt(i)
-    }
-
-    return messageArray
-  }
-
   public send(message: ClientMessage): void {
     /** Send message to server. */
-    const messageArray = this.makeMessageArray(
-      message.type, JSON.stringify(message.body)
-    )
-
     if (this.websocket !== undefined) {
-      this.websocket.send(messageArray)
+      this.websocket.send(message.data)
     }
   }
 
@@ -74,15 +44,15 @@ export default class NdtClient implements NdtClientInterface {
    * @param testIds 
    */
   public login(testIds: TestIds[] = []): void {
-    this.send({
-      type: MessageType.MSG_EXTENDED_LOGIN,
-      body: {
+    this.send(new ClientMessage(
+      MessageType.MSG_EXTENDED_LOGIN,
+      {
         msg: ndtVersion,
         tests: testIds.reduce(
           (testsNum, testId) => (testsNum | testId), TestIds.TEST_STATUS
         )
       }
-    })
+    ))
   }
 
   /**
