@@ -6,15 +6,7 @@ export interface LoginBody extends SendBody {
   tests: number,
 }
 
-export interface ClientMessage {
-  type: number
-  body: SendBody | LoginBody
-}
-
-export interface ServerMessage {
-  type: number
-  body: string
-}
+export type ClientBody = SendBody | LoginBody
 
 export interface ServerInfo {
   server: string

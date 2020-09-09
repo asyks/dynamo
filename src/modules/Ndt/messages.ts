@@ -1,4 +1,4 @@
-import { LoginBody, SendBody } from './types'
+import { ClientBody } from './types'
 import { MessageType, int255HexLiteral } from './constants'
 
 /**
@@ -15,10 +15,8 @@ export interface BaseMessageInterface {
   data: Uint8Array
 }
 
-export type ClientBody = SendBody | LoginBody
-
 export interface ClientMessageInterface extends BaseMessageInterface {
-  body: SendBody | LoginBody
+  body: ClientBody
 }
 
 export interface ServerMessageInterface extends BaseMessageInterface {
