@@ -13,7 +13,7 @@ export default class NdtClient implements NdtClientInterface {
   websocket: WebSocket
 
   /**
-   * NdtClient class constructor
+   * Construct a client to handle websocket connection and ndt communication.
    * @param url The url (string or URL) of the ndt server.
    * @param protocol The name of the protocol to use (default "ndt").
    */
@@ -31,7 +31,7 @@ export default class NdtClient implements NdtClientInterface {
   }
 
   /**
-   * Send a single message to the server
+   * Send a single message to the server.
    * @param message The message to send to the server.
    */
   public send(message: ClientMessage): void {
@@ -39,7 +39,7 @@ export default class NdtClient implements NdtClientInterface {
   }
 
   /**
-   * Send a login message to the server
+   * Send a login message to the server.
    * * Login message type is MSG_EXTENDED_LOGIN.
    * * Send `tests` to the server as a bitwise OR of test ids.
    * * By default the TEST_STATUS (16) test is always sent.
