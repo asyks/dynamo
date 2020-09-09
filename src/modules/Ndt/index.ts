@@ -35,9 +35,7 @@ export default class NdtClient implements NdtClientInterface {
    * @param message The message to send to the server.
    */
   public send(message: ClientMessage): void {
-    if (this.websocket !== undefined) {
-      this.websocket.send(message.data)
-    }
+    this.websocket.send(message.data)
   }
 
   /**
