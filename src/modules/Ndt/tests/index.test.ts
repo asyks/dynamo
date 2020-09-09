@@ -2,23 +2,23 @@ import NdtClient from '../index'
 import { MessageType, TestIds, ndtVersion } from '../constants'
 import { ClientMessage } from '../messages'
 
-describe("Ndt.NdtClient.constructor", () => {
+describe("NdtClient.constructor", () => {
 
-  test("instantiate with url type string", () => {
+  test("construct from url string", () => {
     const ndtClient = new NdtClient("wss://foo.bar:3001/baz")
 
     expect(ndtClient).toHaveProperty("websocket")
     expect(typeof ndtClient.websocket).toEqual("object")
   })
 
-  test("instantiate with url type URL", () => {
+  test("construct from URL", () => {
     const ndtClient = new NdtClient(new URL("wss://foo.bar/baz:3001"))
 
     expect(typeof ndtClient.websocket).toEqual("object")
   })
 })
 
-describe("Ndt.NdtClient.send", () => {
+describe("NdtClient.send", () => {
   let webSocketSend: jest.SpyInstance
   let ndtClient: NdtClient
 
@@ -32,7 +32,7 @@ describe("Ndt.NdtClient.send", () => {
     ndtClient = new NdtClient("wss://foo.bar/baz:3001")
   })
 
-  test("with SendBody typed array", () => {
+  test("call with SendBody message", () => {
     const message = new ClientMessage(
       MessageType.TEST_MSG,
       { msg: "foobar" },
@@ -42,7 +42,7 @@ describe("Ndt.NdtClient.send", () => {
     expect(webSocketSend).toHaveBeenCalled()
   })
 
-  test("with LoginBody typed array", () => {
+  test("call with LoginBody message", () => {
     const message = new ClientMessage(
       MessageType.MSG_EXTENDED_LOGIN,
       { msg: ndtVersion, tests: TestIds.TEST_STATUS },
@@ -53,7 +53,7 @@ describe("Ndt.NdtClient.send", () => {
   })
 })
 
-describe("Ndt.NdtClient.login", () => {
+describe("NdtClient.login", () => {
   let ndtClientSend: jest.SpyInstance
   let ndtClient: NdtClient
 
@@ -71,7 +71,7 @@ describe("Ndt.NdtClient.login", () => {
     ndtClientSend.mockRestore()
   })
 
-  test("default status test only", () => {
+  test("call without optional arg, default status test only", () => {
     ndtClient.login()
 
     expect(ndtClientSend).toHaveBeenCalledWith(
@@ -85,7 +85,7 @@ describe("Ndt.NdtClient.login", () => {
     )
   })
 
-  test("single additional test", () => {
+  test("call with single additional test", () => {
     ndtClient.login([TestIds.TEST_C2S])
 
     expect(ndtClientSend).toHaveBeenCalledWith(
@@ -99,7 +99,7 @@ describe("Ndt.NdtClient.login", () => {
     )
   })
 
-  test("several additional tests", () => {
+  test("call with several additional tests", () => {
     ndtClient.login([TestIds.TEST_C2S, TestIds.TEST_S2C, TestIds.TEST_SFW])
 
     expect(ndtClientSend).toHaveBeenCalledWith(
