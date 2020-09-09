@@ -1,5 +1,5 @@
-import { MessageType, TestIds, ndtVersion } from '../constants'
-import { ClientMessage } from '../messages'
+import { MessageType, TestIds, int255HexLiteral, ndtVersion } from '../constants'
+import { ClientMessage, ServerMessage } from '../messages'
 
 describe("ClientMessage", () => {
   test("construct from SendBody", () => {
@@ -33,5 +33,20 @@ describe("ClientMessage", () => {
         ]
       )
     )
+  })
+})
+
+describe("ServerMessage", () => {
+  test("construct from arbitrary message", () => {
+    const messageLength = 5
+    const messageArray = [
+      MessageType.SRV_QUEUE, (messageLength >> 8) & int255HexLiteral,
+      messageLength & int255HexLiteral, 1, 2, 3, 4, 5
+    ]
+    const uint8Array = Uint8Array.from(messageArray)
+    const message = new ServerMessage(uint8Array.buffer)
+
+    expect(message.type).toStrictEqual(MessageType.SRV_QUEUE)
+    expect(message.body).toStrictEqual("\x01\x02\x03\x04\x05")
   })
 })

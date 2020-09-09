@@ -1,7 +1,5 @@
 import NdtClient from '../index'
-import {
-  MessageType, TestIds, ndtVersion
-} from '../constants'
+import { MessageType, TestIds, ndtVersion } from '../constants'
 import { ClientMessage } from '../messages'
 
 describe("Ndt.NdtClient.constructor", () => {

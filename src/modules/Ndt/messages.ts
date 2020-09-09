@@ -1,20 +1,21 @@
 import { LoginBody, SendBody } from './types'
 import { MessageType, int255HexLiteral } from './constants'
 
-export interface MessageInterface {
+export interface BaseMessageInterface {
   type: MessageType
   length: number
-  body: string | object
   data: Uint8Array
 }
 
 export type ClientBody = SendBody | LoginBody
 
-export interface ClientMessageInterface extends MessageInterface {
+export interface ClientMessageInterface extends BaseMessageInterface {
   body: SendBody | LoginBody
 }
 
-export interface ServerMessageInterface extends MessageInterface { }
+export interface ServerMessageInterface extends BaseMessageInterface {
+  body: string
+}
 
 export class ClientMessage implements ClientMessageInterface {
   type: MessageType
@@ -52,4 +53,34 @@ export class ClientMessage implements ClientMessageInterface {
     }
     this.data = messageArray
   }
+}
+
+export class ServerMessage implements ServerMessageInterface {
+  type: MessageType
+  length: number
+  body: string
+  data: Uint8Array
+  /**
+   * Parse message received from server.
+   * * Validate the length of the message BODY by comparing to LENGTH
+   * * If length is valid assign type from TYPE
+   * * Construct message from BODY
+   * @param buffer
+   */
+  public constructor(buffer: ArrayBuffer) {
+    this.data = new Uint8Array(buffer)
+    /** length of BODY is length of message less TYPE and LENGTH bytes */
+    this.length = this.data.length - 3
+    if (
+      (this.length) !== ((this.data[1] << 8) | this.data[2])
+    ) {
+      throw new Error('InvalidLengthError')
+    }
+
+    this.type = this.data[0]
+    this.body = String.fromCharCode.apply(
+      null, Array.from(this.data.slice(3))
+    )
+  }
+
 }

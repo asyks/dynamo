@@ -54,27 +54,4 @@ export default class NdtClient implements NdtClientInterface {
       }
     ))
   }
-
-  /**
-   * Parse message received from server.
-   * * Validate the length of the message BODY by comparing to LENGTH
-   * * If length is valid assign type from TYPE
-   * * Construct message from BODY
-   * @param buffer 
-   */
-  public parseMessage(buffer: ArrayBuffer): ServerMessage {
-    const messageArray = new Uint8Array(buffer)
-    if (
-      (messageArray.length - 3) !== ((messageArray[1] << 8) | messageArray[2])
-    ) {
-      throw new Error('InvalidLengthError')
-    }
-
-    return {
-      type: messageArray[0],
-      body: String.fromCharCode.apply(
-        null, Array.from(messageArray.slice(3))
-      ),
-    }
-  }
 }
