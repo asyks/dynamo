@@ -2,27 +2,30 @@ import { MessageType, TestIds, ndtVersion } from './constants'
 import { ClientMessage } from './messages'
 
 export interface NdtClientInterface {
-  serverUrl: string
+  url: string
+  protocol: string
   websocket: WebSocket
 }
 
 export default class NdtClient implements NdtClientInterface {
-  serverUrl: string
+  url: string
+  protocol: string
   websocket: WebSocket
 
   /**
    * NdtClient class constructor
-   * @param serverUrl The url string or object for the ndt server.
+   * @param url The url (string or URL) of the ndt server.
    * @param protocol The name of the protocol to use (default "ndt").
    */
-  public constructor(serverUrl: string | URL, protocol: string = "ndt") {
-    if (typeof serverUrl === "object") {
-      serverUrl = serverUrl.toString()
+  public constructor(url: string | URL, protocol: string = "ndt") {
+    if (typeof url === "object") {
+      url = url.toString()
     }
-    this.serverUrl = serverUrl
+    this.url = url
+    this.protocol = protocol
 
     this.websocket = (
-      new WebSocket(this.serverUrl, protocol)
+      new WebSocket(this.url, protocol)
     )
     this.websocket.binaryType = "arraybuffer"
   }
