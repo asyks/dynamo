@@ -1,4 +1,4 @@
-import { MessageType, TestIds, ndtVersion } from './constants'
+import { MessageType, TestIds, ndtVersion, ndt7Protocol } from './constants'
 import { ClientMessage } from './messages'
 
 export interface NdtClientInterface {
@@ -17,7 +17,7 @@ export default class NdtClient implements NdtClientInterface {
    * @param url The url (string or URL) of the ndt server.
    * @param protocol The name of the protocol to use (default "ndt").
    */
-  public constructor(url: string | URL, protocol: string = "ndt") {
+  public constructor(url: string | URL, protocol: string = ndt7Protocol) {
     if (typeof url === "object") {
       url = url.toString()
     }
@@ -56,4 +56,5 @@ export default class NdtClient implements NdtClientInterface {
       }
     ))
   }
+
 }

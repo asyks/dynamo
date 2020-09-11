@@ -22,6 +22,8 @@ export enum TestIds {
   TEST_META = 32,
 }
 
+export const ndt7Protocol: string = "net.measurementlab.ndt.v7"
+
 export const ndtVersion: string = "3.7.0.2"
 
 export const int255HexLiteral: number = 0xFF

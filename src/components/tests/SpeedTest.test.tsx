@@ -1,46 +1,49 @@
 import * as React from 'react'
 import renderer from 'react-test-renderer'
-import { fireEvent, render } from '@testing-library/react'
+import { shallow } from 'enzyme'
 
 import * as requests from '../../modules/Ndt/requests'
+import * as tests from '../../modules/Ndt/tests'
 
 import SpeedTest from '../SpeedTest'
 
 jest.mock("../../modules/Ndt/requests")
+jest.mock("../../modules/Ndt/tests")
 
 describe("components/SpeedTest", () => {
   let mockedAsyncGet = requests.asyncGet as jest.Mock
+  let mockedStartTest = tests.startTest as jest.Mock
+  const downloadUrl = "wss://ndt-mlab2-lga05.fake.org/ndt/v7/download"
+  const uploadUrl = "wss://ndt-mlab2-lga05.fake.org/ndt/v7/upload"
 
   beforeEach(() => {
-    mockedAsyncGet.mockClear()
+    jest.clearAllMocks()
     mockedAsyncGet.mockResolvedValue({
       results: [{
         urls: {
-          "wss:///ndt/v7/download": (
-            "wss://ndt-mlab2-lga05.fake.org/ndt/v7/download"
-          ),
-          "wss:///ndt/v7/upload": (
-            "wss://ndt-mlab2-lga05.fake.org/ndt/v7/upload"
-          ),
+          "wss:///ndt/v7/download": downloadUrl,
+          "wss:///ndt/v7/upload": uploadUrl,
         }
       }]
     })
   })
 
   test("nominally renders", () => {
-    let rendered
-    renderer.act(() => {
-      rendered = renderer.create(<SpeedTest />)
-    })
-
-    expect(rendered).toMatchSnapshot()
-    expect(mockedAsyncGet.mock.calls.length).toBe(1)
+    expect(shallow(<SpeedTest />)).toMatchSnapshot()
   })
 
-  test("registers button click", () => {
-    const { container, getByText } = render(<SpeedTest />)
-    fireEvent.click(getByText("Connect"))
+  test("handles button click", () => {
+    const wrapper = shallow(
+      <SpeedTest serviceUrls={
+        {
+          download: new URL(downloadUrl),
+          upload: new URL(uploadUrl),
+        }
+      } />
+    )
+    const instance = wrapper.instance()
+    wrapper.find("button").simulate("click")
 
-    expect(mockedAsyncGet.mock.calls.length).toBe(2)
+    expect(mockedStartTest.mock.calls.length).toEqual(1)
   })
 })
