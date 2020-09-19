@@ -1,8 +1,9 @@
 import * as React from 'react'
 
 import { getServiceUrls } from '../modules/Ndt/utils'
-import { startTest } from '../modules/Ndt/tests'
 import { serviceUrlPair } from '../modules/Ndt/types'
+
+import Client from '../modules/Ndt7'
 
 export interface Props {
   serviceUrls?: serviceUrlPair
@@ -19,16 +20,19 @@ const SpeedTest: React.FC<Props> = props => {
     fetchUrls()
   }, [])
 
+  const startTest = () => {
+    if (serviceUrls !== undefined) {
+      const client = new Client(serviceUrls)
+      client.startDownload()
+    }
+  }
+
   return (
     <div>
       <div>speed test</div>
       {serviceUrls && (
         <button
-          onClick={() => {
-            if (serviceUrls !== undefined) {
-              startTest(serviceUrls)
-            }
-          }}
+          onClick={startTest}
         >
           Connect
         </button>

@@ -1,18 +1,18 @@
 import * as React from 'react'
-import renderer from 'react-test-renderer'
 import { shallow } from 'enzyme'
+import { mocked } from 'ts-jest/utils'
 
 import * as requests from '../../modules/Ndt/requests'
-import * as tests from '../../modules/Ndt/tests'
+import Client from '../../modules/Ndt7'
 
 import SpeedTest from '../SpeedTest'
 
 jest.mock("../../modules/Ndt/requests")
-jest.mock("../../modules/Ndt/tests")
+jest.mock("../../modules/Ndt7")
 
 describe("components/SpeedTest", () => {
   let mockedAsyncGet = requests.asyncGet as jest.Mock
-  let mockedStartTest = tests.startTest as jest.Mock
+  let mockedClient = mocked(Client, true)
   const downloadUrl = "wss://ndt-mlab2-lga05.fake.org/ndt/v7/download"
   const uploadUrl = "wss://ndt-mlab2-lga05.fake.org/ndt/v7/upload"
 
@@ -44,6 +44,7 @@ describe("components/SpeedTest", () => {
     const instance = wrapper.instance()
     wrapper.find("button").simulate("click")
 
-    expect(mockedStartTest.mock.calls.length).toEqual(1)
+    expect(mockedClient).toHaveBeenCalledTimes(1)
+    expect(mockedClient.mock.instances[0].startDownload).toHaveBeenCalledTimes(1)
   })
 })
