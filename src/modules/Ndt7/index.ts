@@ -4,7 +4,6 @@ import { testUrls } from './types'
 export interface ClientInterface {
   urls: testUrls
   protocol: string
-  startDownload: () => void
 }
 
 export default class Client implements ClientInterface {
