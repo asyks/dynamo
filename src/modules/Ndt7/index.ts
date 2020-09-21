@@ -13,6 +13,7 @@ export default class Client implements ClientInterface {
   /**
    * Construct a client to handle websocket connection and ndt communication.
    * @param url The url (string or URL object) of the ndt server.
+   * @param protocol The protocol (string) to be sent as header: Sec-WebSocket-Protocol.
    */
   public constructor(urls: testUrls, protocol = ndt7WebSocketSubProtocol) {
     this.urls = urls
