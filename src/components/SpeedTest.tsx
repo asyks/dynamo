@@ -4,6 +4,7 @@ import { getServiceUrls } from '../modules/Ndt/utils'
 import { serviceUrlPair } from '../modules/Ndt/types'
 
 import Client from '../modules/Ndt7'
+import handlers from '../modules/Ndt7/callbacks'
 
 export interface Props {
   serviceUrls?: serviceUrlPair
@@ -22,7 +23,7 @@ const SpeedTest: React.FC<Props> = props => {
 
   const startTest = () => {
     if (serviceUrls !== undefined) {
-      const client = new Client(serviceUrls)
+      const client = new Client(serviceUrls, handlers)
       client.startDownload()
     }
   }
