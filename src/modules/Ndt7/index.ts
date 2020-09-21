@@ -25,23 +25,27 @@ export default class Client implements ClientInterface {
   }
 
   public parseMessage(message: string) {
-    try {
-      console.log(JSON.parse(message))
-    }
-    catch (SyntaxError) {
-      console.log(message)
+    if (typeof message === 'string') {
+      try {
+        console.log(JSON.parse(message))
+      }
+      catch (SyntaxError) {
+        console.log(message)
+      }
     }
   }
 
   public startDownload() {
     const websocket = Client.connect(this.urls.download)
-    websocket.onopen = (event) => { console.log("Connection established, Starting download test") }
+    websocket.onopen = (event) => { console.log('Connection established, Starting download test') }
+    websocket.onclose = (event) => { console.log('Connection closed, test finished') }
     websocket.onmessage = (event) => { this.parseMessage(event.data) }
   }
 
   public startUpload() {
     const websocket = Client.connect(this.urls.upload)
-    websocket.onopen = (event) => { console.log("Connection established, Starting upload test") }
+    websocket.onopen = (event) => { console.log('Connection established, Starting upload test') }
+    websocket.onclose = (event) => { console.log('Connection closed, test finished') }
     websocket.onmessage = (event) => { this.parseMessage(event.data) }
   }
 
