@@ -1,29 +1,50 @@
-export const onclose = (evt: CloseEvent): void => {
-  console.log('Connection closed, finished test.')
+import {
+  TestEventHandler,
+  WsCloseEventHandler,
+  WsGenericEventHandler,
+  WsMessageEventHandler,
+} from './types'
+import { TestEventType } from './constants'
+import { defaultEventHandler } from './handlers'
+
+export const constructOnClose = (handler: TestEventHandler): WsCloseEventHandler => {
+  return (evt: Event): void => {
+    handler({ type: TestEventType.FINISH })
+  }
 }
 
-export const onerror = (evt: Event): void => {
-  console.log(`Error encountered: ${evt}`)
+export const constructOnError = (handler: TestEventHandler): WsGenericEventHandler => {
+  return (evt: Event): void => {
+    handler({ type: TestEventType.ERROR, data: evt })
+  }
 }
 
-export const onmessage = (evt: MessageEvent): void => {
-  if (typeof evt.data === 'string') {
-    try {
-      console.log(JSON.parse(evt.data))
-    }
-    catch (SyntaxError) {
-      console.log(evt.data)
+export const constructOnMessage = (handler: TestEventHandler): WsMessageEventHandler => {
+  return (evt: MessageEvent): void => {
+    if (typeof evt.data === 'string') {
+      try {
+        handler(
+          { type: TestEventType.TEXTUAL_MESSAGE, data: JSON.parse(evt.data) }
+        )
+      }
+      catch (SyntaxError) {
+        handler(
+          { type: TestEventType.TEXTUAL_MESSAGE, data: evt.data }
+        )
+      }
     }
   }
 }
 
-export const onopen = (evt: Event): void => {
-  console.log('Connection established, starting test...')
+export const constructOnOpen = (handler: TestEventHandler): WsGenericEventHandler => {
+  return (evt: Event): void => {
+    handler({ type: TestEventType.START })
+  }
 }
 
 export default {
-  onclose: onclose,
-  onerror: onerror,
-  onmessage: onmessage,
-  onopen: onopen,
+  onclose: constructOnClose(defaultEventHandler),
+  onerror: constructOnError(defaultEventHandler),
+  onmessage: constructOnMessage(defaultEventHandler),
+  onopen: constructOnOpen(defaultEventHandler),
 }
