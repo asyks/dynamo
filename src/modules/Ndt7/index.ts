@@ -24,14 +24,14 @@ export default class Client implements ClientInterface {
   ) {
     this.urls = urls
     this.callbacks = callbacks
-    this.protocol = ndt7WebSocketSubProtocol
+    this.protocol = protocol
   }
 
-  public static connect(url: URL) {
+  public static connect(url: URL): WebSocket {
     return new WebSocket(url.toString(), ndt7WebSocketSubProtocol)
   }
 
-  public startDownload() {
+  public startDownload(): void {
     const websocket = Client.connect(this.urls.download)
     websocket.onopen = this.callbacks.onopen
     websocket.onclose = this.callbacks.onclose
@@ -39,7 +39,7 @@ export default class Client implements ClientInterface {
     websocket.onmessage = this.callbacks.onmessage
   }
 
-  public startUpload() {
+  public startUpload(): void {
     const websocket = Client.connect(this.urls.upload)
     websocket.onopen = this.callbacks.onopen
     websocket.onclose = this.callbacks.onclose
