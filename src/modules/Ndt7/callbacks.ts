@@ -16,16 +16,16 @@ export const constructOnClose = (handler: TestEventHandler): WsCloseEventHandler
 }
 
 export const constructOnError = (handler: TestEventHandler): WsGenericEventHandler => {
-  return (evt: Event): void => handler({ type: TestEventType.ERROR, data: evt })
+  return (evt: Event): void => handler({ type: TestEventType.ERROR, message: evt })
 }
 
 export const constructOnMessage = (handler: TestEventHandler): WsMessageEventHandler => {
   return (evt: MessageEvent): void => {
     if (typeof evt.data === 'string') {
-      handler({ type: TestEventType.TEXTUAL_MESSAGE, data: evt })
+      handler({ type: TestEventType.TEXTUAL_MESSAGE, message: evt })
     }
     else {
-      handler({ type: TestEventType.BINARY_MESSAGE, data: evt })
+      handler({ type: TestEventType.BINARY_MESSAGE, message: evt })
     }
   }
 }

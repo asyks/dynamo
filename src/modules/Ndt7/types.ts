@@ -7,7 +7,7 @@ export interface TestUrls {
 
 export interface TestEvent {
   type: TestEventType
-  data?: any
+  message?: any
 }
 
 export type TestEventHandler = (evt: TestEvent) => void
